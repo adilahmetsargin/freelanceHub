@@ -12,7 +12,7 @@ A modern and fast freelance job platform interface. Built with React, TypeScript
 
 1. Clone the repository:
    ```sh
-   git clone https://github.com/your-username/freelancehub.git
+   git clone https://github.com/adilahmetsargin/freelancehub.git
    cd freelancehub
    ```
 2. Install dependencies:
