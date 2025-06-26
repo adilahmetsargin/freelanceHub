@@ -41,3 +41,34 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+body.light {
+  background: #f5f7fa;
+  color: #222;
+}
+body.dark {
+  background: #181a1b;
+  color: #f5f7fa;
+}
+
+/* Kartlar ve ana elementler için örnek dark mode desteği */
+.card, .container, .form, .section {
+  background: inherit;
+  color: inherit;
+}
+.card {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+body.dark .card {
+  background: #23272f;
+  color: #f5f7fa;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+body.dark input, body.dark select, body.dark textarea {
+  background: #23272f;
+  color: #f5f7fa;
+  border-color: #444;
+}
+body.dark .button {
+  background: #444;
+  color: #fff;
+}

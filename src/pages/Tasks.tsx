@@ -1,5 +1,5 @@
 import styles from "../styles/Tasks.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Task = {
   id: number;
@@ -7,21 +7,34 @@ type Task = {
   completed: boolean;
 };
 
-const initialTasks: Task[] = [
-  { id: 1, title: "Fix landing page bug", completed: false },
-  { id: 2, title: "Write onboarding docs", completed: true },
-  { id: 3, title: "Call with client", completed: false },
-];
+
 
 const Tasks = () => {
-  const [tasks, setTasks] = useState(initialTasks);
+   const [tasks, setTasks] = useState<Task[]>([]);
   const [filter, setFilter] = useState<"all" | "active" | "completed">("all");
 
-  const toggleTask = (id: number) => {
-    const updated = tasks.map((t) =>
-      t.id === id ? { ...t, completed: !t.completed } : t
+  useEffect(() => {
+    fetch("http://localhost:5001/tasks")
+      .then((res) => res.json())
+      .then((data) => setTasks(data));
+  }, []);
+
+
+  const toggleTask = async (id: number) => {
+    const task = tasks.find((t) => t.id === id);
+    if (!task) return;
+
+    const updatedTask = { ...task, completed: !task.completed };
+
+    await fetch(`http://localhost:5001/tasks/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedTask),
+    });
+
+    setTasks((prev) =>
+      prev.map((t) => (t.id === id ? updatedTask : t))
     );
-    setTasks(updated);
   };
 
   const filteredTasks = tasks.filter((task) => {

@@ -1,0 +1,26 @@
+.sidebar {
+  width: 200px;
+  background-color: #FFFFFF;
+  border-right: 1px solid #EEE;
+  padding: 2rem 1rem;
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+}
+
+.link {
+  display: block;
+  margin-bottom: 1rem;
+  color: #555;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.link:hover {
+  color: #6C63FF;
+}
+
+.active {
+  color: #6C63FF;
+  font-weight: 600;
+}

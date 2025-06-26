@@ -1,0 +1,64 @@
+{
+  "projects": [
+    {
+      "id": "1",
+      "title": "Website Redesign",
+      "description": "Modern UI with accessibility improvements.",
+      "status": "Active",
+      "startDate": "2025-05-01",
+      "endDate": "2025-06-30",
+      "customer": "Doe Co.",
+      "taskIds": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": "2",
+      "title": "Mobile App MVP",
+      "description": "Initial version of the new app.",
+      "status": "Completed",
+      "startDate": "2025-04-01",
+      "endDate": "2025-05-15",
+      "customer": "StartupHub",
+      "taskIds": [
+        2,
+        3
+      ]
+    }
+  ],
+  "customers": [
+    {
+      "id": "1",
+      "name": "John Doe",
+      "email": "john@example.com",
+      "company": "Doe Co.",
+      "status": "Active"
+    },
+    {
+      "id": "2",
+      "name": "Jane Smith",
+      "email": "jane@smith.io",
+      "company": "Smith Ltd.",
+      "status": "Inactive"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "1",
+      "title": "Wireframe design",
+      "completed": false
+    },
+    {
+      "id": "2",
+      "title": "Call with client",
+      "completed": true
+    },
+    {
+      "id": "3",
+      "title": "Push to repo",
+      "completed": false
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 import styles from "../styles/Projects.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 type Project = {
   id: number;
@@ -9,36 +10,25 @@ type Project = {
   date: string;
 };
 
-const mockProjects: Project[] = [
-  {
-    id: 1,
-    title: "Website Redesign",
-    description: "Redesigning the corporate website.",
-    status: "Active",
-    date: "2025-06-01",
-  },
-  {
-    id: 2,
-    title: "Mobile App",
-    description: "Developing a cross-platform app.",
-    status: "Completed",
-    date: "2025-04-10",
-  },
-  {
-    id: 3,
-    title: "Dashboard UI",
-    description: "Designing a new admin panel.",
-    status: "Active",
-    date: "2025-05-15",
-  },
-];
-
 const Projects = () => {
   const [query, setQuery] = useState("");
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
+  
+  useEffect(() => {
+    fetch("http://localhost:5001/projects")
+      .then((res) => res.json())
+      .then((data) => {
+        setProjects(data);
+        setLoading(false);
+      });
+  }, []);
 
-  const filtered = mockProjects.filter((p) =>
+  const filtered = projects.filter((p) =>
     p.title.toLowerCase().includes(query.toLowerCase())
   );
+
+  if (loading) return <p className={styles.loading}>Loading...</p>;
 
   return (
     <div className={styles.container}>
@@ -54,7 +44,11 @@ const Projects = () => {
 
       <div className={styles.grid}>
         {filtered.map((project) => (
-          <div key={project.id} className={styles.card}>
+          <Link
+            to={`/projects/${project.id}`}
+            key={project.id}
+            className={styles.card}
+          >
             <h3 className={styles.cardTitle}>{project.title}</h3>
             <p className={styles.cardDesc}>{project.description}</p>
             <p className={styles.cardMeta}>
@@ -63,7 +57,7 @@ const Projects = () => {
               </span>{" "}
               | {project.date}
             </p>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

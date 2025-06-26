@@ -25,6 +25,8 @@ Thank you for your interest in contributing to freelancehub! We welcome all kind
 - This project uses React, TypeScript, and Vite.
 - Install dependencies with `npm install`.
 - Start the development server with `npm run dev`.
+- **Mock API:** Start the mock API server with `npm run api`. The API is served from `db.json` on http://localhost:5001.
+- If you add or change API endpoints or the structure of `db.json`, please update the documentation and provide example data.
 
 ## Code of Conduct
 
