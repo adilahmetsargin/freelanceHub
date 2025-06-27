@@ -26,6 +26,9 @@ Thank you for your interest in contributing to freelancehub! We welcome all kind
 - Install dependencies with `npm install`.
 - Start the development server with `npm run dev`.
 - **Mock API:** Start the mock API server with `npm run api`. The API is served from `db.json` on http://localhost:5001.
+- The layout is modular: see `src/components/Layout.tsx`, `Sidebar.tsx`, `Navbar.tsx`.
+- Calendar events are managed via the `/calendarEvents` endpoint in the mock API.
+- **Dashboard Add Modal:** You can add customers, tasks, projects, and calendar events from the Dashboard. Select options are managed in `src/services/options.ts` for easy extension or backend integration.
 - If you add or change API endpoints or the structure of `db.json`, please update the documentation and provide example data.
 
 ## Code of Conduct

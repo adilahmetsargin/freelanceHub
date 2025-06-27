@@ -1,8 +1,14 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import styles from "../styles/Login.module.css";
+import { useDispatch } from "react-redux";
+import { login } from "../store/slices/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const initialValues = {
     email: "",
     password: "",
@@ -14,14 +20,22 @@ const Login = () => {
   });
 
   const handleSubmit = (values: typeof initialValues) => {
-    console.log("Login values:", values);
-    // Here you would typically handle the login logic, e.g., API call
+    
+    const fakeUser = {
+      id: 1,
+      name: "Adil Ahmet",
+      email: values.email,
+    };
+
+    dispatch(login(fakeUser)); 
+    navigate("/dashboard");    
   };
 
   return (
     <div className={styles.container}>
       <div className={styles.card}>
         <h2 className={styles.title}>Welcome Back</h2>
+
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
           <Form className={styles.form}>
             <label>Email</label>
@@ -32,12 +46,10 @@ const Login = () => {
             <Field name="password" type="password" className={styles.input} />
             <ErrorMessage name="password" component="div" className={styles.error} />
 
-            <button type="submit" className={styles.button}>
-              <a href="/dashboard">Login </a>
-              {/* Login  */}
-              </button>
+            <button type="submit" className={styles.button}>Login</button>
           </Form>
         </Formik>
+
         <p className={styles.footer}>
           Don’t have an account? <a href="/register">Sign up</a>
         </p>

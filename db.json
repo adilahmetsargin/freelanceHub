@@ -26,6 +26,19 @@
         2,
         3
       ]
+    },
+    {
+      "id": "3",
+      "title": "E-commerce Platform",
+      "description": "Build a scalable e-commerce backend.",
+      "status": "Active",
+      "startDate": "2025-06-01",
+      "endDate": "2025-07-15",
+      "customer": "Smith Ltd.",
+      "taskIds": [
+        4,
+        5
+      ]
     }
   ],
   "customers": [
@@ -42,6 +55,20 @@
       "email": "jane@smith.io",
       "company": "Smith Ltd.",
       "status": "Inactive"
+    },
+    {
+      "id": "3",
+      "name": "Alice Brown",
+      "email": "alice@startuphub.com",
+      "company": "StartupHub",
+      "status": "Active"
+    },
+    {
+      "id": "4",
+      "name": "Bob Green",
+      "email": "bob@ecommerce.com",
+      "company": "Ecom Inc.",
+      "status": "Active"
     }
   ],
   "tasks": [
@@ -59,6 +86,28 @@
       "id": "3",
       "title": "Push to repo",
       "completed": false
+    },
+    {
+      "id": "4",
+      "title": "API integration",
+      "completed": false
+    },
+    {
+      "id": "5",
+      "title": "Testing & QA",
+      "completed": false
     }
+  ],
+   "calendarEvents": [
+    { "id": 1, "date": "2025-06-26", "title": "Client Meeting", "type": "Meeting" },
+    { "id": 2, "date": "2025-06-27", "title": "Redesign Deadline", "type": "Deadline" },
+    { "id": 3, "date": "2025-06-28", "title": "Write Documentation", "type": "Task" },
+    { "id": 4, "date": "2025-07-01", "title": "Launch App", "type": "Deadline" }
+  ],
+  "dashboardStats": [
+    { "id": 1, "title": "Total Projects", "value": 3 },
+    { "id": 2, "title": "Active Tasks", "value": 4 },
+    { "id": 3, "title": "Customers", "value": 4 },
+    { "id": 4, "title": "Upcoming Deadlines", "value": 2 }
   ]
 }

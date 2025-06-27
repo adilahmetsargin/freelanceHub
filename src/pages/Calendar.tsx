@@ -1,33 +1,52 @@
 import styles from "../styles/Calendar.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import api from "../services/api";
 
 type CalendarEvent = {
+  id?: number;
   date: string;
   title: string;
   type: "Meeting" | "Deadline" | "Task";
 };
 
-const initialEvents: CalendarEvent[] = [
-  { date: "2025-06-26", title: "Client Meeting", type: "Meeting" },
-  { date: "2025-06-27", title: "Redesign Deadline", type: "Deadline" },
-  { date: "2025-06-28", title: "Write Documentation", type: "Task" },
-  { date: "2025-07-01", title: "Launch App", type: "Deadline" },
-];
-
 const Calendar = () => {
-  const [events, setEvents] = useState(initialEvents);
-  const [newEvent, setNewEvent] = useState({ date: "", title: "", type: "Meeting" as CalendarEvent["type"] });
+  const [events, setEvents] = useState<CalendarEvent[]>([]);
+  const [newEvent, setNewEvent] = useState<CalendarEvent>({
+    date: "",
+    title: "",
+    type: "Meeting"
+  });
 
-  const addEvent = (e: React.FormEvent) => {
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const res = await api.get("/calendarEvents");
+        setEvents(res.data);
+      } catch (err) {
+        console.error("Error fetching calendar events", err);
+      }
+    };
+
+    fetchEvents();
+  }, []);
+
+  const addEvent = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newEvent.date || !newEvent.title) return;
-    setEvents([...events, newEvent]);
-    setNewEvent({ date: "", title: "", type: "Meeting" });
+
+    try {
+      const res = await api.post("/calendarEvents", newEvent);
+      setEvents((prev) => [...prev, res.data]);
+      setNewEvent({ date: "", title: "", type: "Meeting" });
+    } catch (err) {
+      console.error("Error adding calendar event", err);
+    }
   };
 
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Calendar</h1>
+
       <form className={styles.form} onSubmit={addEvent}>
         <input
           type="date"
@@ -53,9 +72,10 @@ const Calendar = () => {
         </select>
         <button type="submit" className={styles.button}>Add Event</button>
       </form>
+
       <div className={styles.grid}>
-        {events.map((event, index) => (
-          <div key={index} className={styles.card}>
+        {events.map((event) => (
+          <div key={event.id} className={styles.card}>
             <p className={styles.date}>{event.date}</p>
             <p className={styles.titleText}>{event.title}</p>
             <span className={`${styles.tag} ${styles[event.type.toLowerCase()]}`}>

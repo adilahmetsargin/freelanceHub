@@ -1,6 +1,7 @@
 import styles from "../styles/Projects.module.css";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import api from "../services/api";
 
 type Project = {
   id: number;
@@ -14,15 +15,12 @@ const Projects = () => {
   const [query, setQuery] = useState("");
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
-  
+
   useEffect(() => {
-    fetch("http://localhost:5001/projects")
-      .then((res) => res.json())
-      .then((data) => {
-        setProjects(data);
-        setLoading(false);
-      });
-  }, []);
+  api.get("/projects")
+    .then((res) => setProjects(res.data))
+    .finally(() => setLoading(false));
+}, []);
 
   const filtered = projects.filter((p) =>
     p.title.toLowerCase().includes(query.toLowerCase())

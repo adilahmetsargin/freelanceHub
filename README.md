@@ -8,6 +8,10 @@ A modern and fast freelance job platform interface. Built with React, TypeScript
 - 🛠️ TypeScript support
 - 📦 Easy to extend and customize
 - 🗄️ Mock API with [json-server](https://github.com/typicode/json-server)
+- 🗂️ Modular layout with reusable Sidebar and Navbar
+- 📅 Calendar page with event add/list (mock API)
+- 📊 Project details with related tasks
+- ➕ Add customers, tasks, projects, and calendar events directly from the Dashboard (all data is saved to db.json)
 
 ## Getting Started
 
@@ -34,6 +38,8 @@ A modern and fast freelance job platform interface. Built with React, TypeScript
 - `GET /tasks` — List all tasks
 - `PUT /tasks/2` — Update task with id 2
 - `GET /projects/1` — Get project with id 1
+- `GET /calendarEvents` — List all calendar events
+- `POST /calendarEvents` — Add a new calendar event
 
 ## Contributing
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.

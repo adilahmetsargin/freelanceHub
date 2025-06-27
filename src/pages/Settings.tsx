@@ -4,7 +4,6 @@ import * as Yup from "yup";
 import { useState } from "react";
 
 const Settings = () => {
-  const [theme, setTheme] = useState("light");
   const [notifications, setNotifications] = useState({ email: true, inApp: false });
   return (
     <div className={styles.container}>
@@ -22,7 +21,7 @@ const Settings = () => {
           password: Yup.string().min(6, "Minimum 6 characters"),
         })}
         onSubmit={(values) => {
-          console.log("Settings updated:", values, theme, notifications);
+          console.log("Settings updated:", values, notifications);
           alert("Settings saved!");
         }}
       >
@@ -39,19 +38,6 @@ const Settings = () => {
           <Field name="password" type="password" />
           <ErrorMessage name="password" component="div" className={styles.error} />
 
-          <div className={styles.section}>
-            <label>Theme</label>
-            <div className={styles.themeSwitch}>
-              <label>
-                <input type="radio" name="theme" value="light" checked={theme === "light"} onChange={() => setTheme("light")}/>
-                Light
-              </label>
-              <label>
-                <input type="radio" name="theme" value="dark" checked={theme === "dark"} onChange={() => setTheme("dark")}/>
-                Dark
-              </label>
-            </div>
-          </div>
 
           <div className={styles.section}>
             <label>Notifications</label>

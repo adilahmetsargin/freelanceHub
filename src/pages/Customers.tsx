@@ -1,6 +1,7 @@
 import styles from "../styles/Customers.module.css";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import api from "../services/api";
 
 type Customer = {
   id: number;
@@ -12,24 +13,29 @@ type Customer = {
 
 const Customers = () => {
   const [query, setQuery] = useState("");
-
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:5001/customers")
-      .then((res) => res.json())
-      .then((data) => {
-        setCustomers(data);
+    const fetchCustomers = async () => {
+      try {
+        const res = await api.get("/customers");
+        setCustomers(res.data);
+      } catch (err) {
+        console.error("Error fetching customers:", err);
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+
+    fetchCustomers();
   }, []);
 
   const filtered = customers.filter((c) =>
     c.name.toLowerCase().includes(query.toLowerCase())
   );
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <p className={styles.loading}>Loading...</p>;
 
   return (
     <div className={styles.container}>

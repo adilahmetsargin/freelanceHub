@@ -1,9 +1,14 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import styles from "../styles/Register.module.css";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../store/slices/authSlice";
+import { useNavigate, Link } from "react-router-dom";
 
 const Register = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const initialValues = {
     fullName: "",
     email: "",
@@ -16,19 +21,27 @@ const Register = () => {
     email: Yup.string().email("Invalid email").required("Email is required"),
     password: Yup.string().min(6, "Minimum 6 characters").required("Password is required"),
     confirmPassword: Yup.string()
-      .oneOf([Yup.ref("password"), ""], "Passwords must match")
+      .oneOf([Yup.ref("password")], "Passwords must match")
       .required("Please confirm your password"),
   });
 
   const handleSubmit = (values: typeof initialValues) => {
-    console.log("Register values:", values);
-    // API isteği burada yapılır
+    
+    const newUser = {
+      id: Math.floor(Math.random() * 10000),
+      name: values.fullName,
+      email: values.email,
+    };
+
+    dispatch(login(newUser)); 
+    navigate("/dashboard");   
   };
 
   return (
     <div className={styles.container}>
       <div className={styles.card}>
         <h2 className={styles.title}>Create Account</h2>
+
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
           <Form className={styles.form}>
             <label htmlFor="fullName">Full Name</label>
@@ -50,6 +63,7 @@ const Register = () => {
             <button type="submit" className={styles.button}>Register</button>
           </Form>
         </Formik>
+
         <p className={styles.footer}>
           Already have an account? <Link to="/login">Login</Link>
         </p>

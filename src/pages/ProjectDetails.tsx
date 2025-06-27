@@ -1,6 +1,7 @@
 import styles from "../styles/ProjectDetails.module.css";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import api from "../services/api";
 
 type Task = {
   id: number;
@@ -26,22 +27,26 @@ const ProjectDetails = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchProject = async () => {
-      const res = await fetch(`http://localhost:5001/projects/${id}`);
-      const data = await res.json();
-      setProject(data);
-      return data.taskIds;
+    const fetchData = async () => {
+      try {
+        const projectRes = await api.get(`/projects/${id}`);
+        const projectData: Project = projectRes.data;
+        setProject(projectData);
+
+        const tasksRes = await api.get("/tasks");
+        const allTasks: Task[] = tasksRes.data;
+        const projectTasks = allTasks.filter((task) =>
+          projectData.taskIds.includes(task.id)
+        );
+        setTasks(projectTasks);
+      } catch (err) {
+        console.error("Error loading project details", err);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    const fetchTasks = async (taskIds: number[]) => {
-      const res = await fetch(`http://localhost:5001/tasks`);
-      const allTasks: Task[] = await res.json();
-      const filtered = allTasks.filter((t) => taskIds.includes(t.id));
-      setTasks(filtered);
-      setLoading(false);
-    };
-
-    fetchProject().then(fetchTasks);
+    fetchData();
   }, [id]);
 
   const toggleTask = async (taskId: number) => {
@@ -50,18 +55,17 @@ const ProjectDetails = () => {
 
     const updated = { ...task, completed: !task.completed };
 
-    await fetch(`http://localhost:5001/tasks/${taskId}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(updated),
-    });
-
-    setTasks((prev) =>
-      prev.map((t) => (t.id === taskId ? updated : t))
-    );
+    try {
+      await api.put(`/tasks/${taskId}`, updated);
+      setTasks((prev) =>
+        prev.map((t) => (t.id === taskId ? updated : t))
+      );
+    } catch (err) {
+      console.error("Error updating task", err);
+    }
   };
 
-  if (loading || !project) return <p>Loading...</p>;
+  if (loading || !project) return <p className={styles.loading}>Loading...</p>;
 
   return (
     <div className={styles.container}>
